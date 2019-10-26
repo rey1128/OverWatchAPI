@@ -34,3 +34,8 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
+
+task run(type: JavaExec) {
+    main = 'com.rey.entry.App'
+    classpath = sourceSets.main.runtimeClasspath
+}

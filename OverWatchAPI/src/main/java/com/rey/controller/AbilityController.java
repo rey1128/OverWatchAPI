@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.rey.common.CommonConstants;
 import com.rey.common.CommonUtils;
 import com.rey.model.Ability;
-import com.rey.model.Hero;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
