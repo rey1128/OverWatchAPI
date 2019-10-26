@@ -7,6 +7,8 @@ public class Ability {
 	private String description;
 	private boolean is_ultimate;
 	private Hero hero;
+	private int hero_id;
+	
 	public int getId() {
 		return id;
 	}
@@ -36,6 +38,12 @@ public class Ability {
 	}
 	public void setHero(Hero hero) {
 		this.hero = hero;
+	}
+	public int getHero_id() {
+		return hero_id;
+	}
+	public void setHero_id(int hero_id) {
+		this.hero_id = hero_id;
 	}
 	
 	

@@ -33,6 +33,8 @@ public class HeroDao {
 		getHeroById();
 	}
 
+	
+
 	private void getHeroById() {
 
 		vertx.eventBus().consumer(CommonConstants.HERO_GET_BY_ID).handler(msg -> {
@@ -45,7 +47,13 @@ public class HeroDao {
 				if (conn.succeeded()) {
 					conn.result().queryWithParams("select * from hero where id=?", params, rs -> {
 						if (rs.succeeded()) {
-							msg.reply(Json.encode(rs.result().getRows().get(0)));
+							List<JsonObject> heros=rs.result().getRows();
+							if(heros.isEmpty()) {
+								msg.reply(CommonConstants.NULL_OBJ);
+							}else {
+								msg.reply(Json.encode(rs.result().getRows().get(0)));	
+							}
+							
 						} else {
 							logger.error("error with query hero from db, hero_id is " + id);
 							logger.error(rs.cause());
@@ -58,7 +66,7 @@ public class HeroDao {
 	}
 
 	private void getHeros() {
-		vertx.eventBus().consumer(CommonConstants.HERO_GET_BY_ID).handler(msg -> {
+		vertx.eventBus().consumer(CommonConstants.HERO_GET).handler(msg -> {
 
 			client.getConnection(conn -> {
 				if (conn.succeeded()) {

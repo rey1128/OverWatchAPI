@@ -9,7 +9,9 @@ import com.rey.common.CommonUtils;
 import com.rey.model.Ability;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.jdbc.JDBCClient;
@@ -29,15 +31,88 @@ public class AbilityDao {
 		insertAbility();
 		getAbility();
 		getAbilityById();
+		getAbilityByHeroId();
+	}
+
+	private void getAbilityByHeroId() {
+		
+		vertx.eventBus().consumer(CommonConstants.ABILITY_GET_BY_HEROID).handler(msg -> {
+			JsonObject msgJson = (JsonObject) Json.decodeValue(msg.body().toString());
+			int id = msgJson.getInteger("id");
+			JsonArray params = new JsonArray();
+			params.add(id);
+
+			client.getConnection(conn -> {
+				if (conn.succeeded()) {
+					conn.result().queryWithParams("select * from ability where hero_id=?", params, rs -> {
+						if (rs.succeeded()) {
+							List<JsonObject> heros=rs.result().getRows();
+							if(heros.isEmpty()) {
+								msg.reply(CommonConstants.NULL_OBJ);
+							}else {
+								msg.reply(Json.encode(rs.result().getRows()));	
+							}
+							
+						} else {
+							logger.error("error with query ability by hero_id from db, hero_id is " + id);
+							logger.error(rs.cause());
+						}
+						conn.result().close();
+					});
+				}
+			});
+		});
 	}
 
 	private void getAbilityById() {
-		// TODO Auto-generated method stub
+
+		vertx.eventBus().consumer(CommonConstants.ABILITY_GET_BY_ID).handler(msg -> {
+			JsonObject msgJson = (JsonObject) Json.decodeValue(msg.body().toString());
+			int id = msgJson.getInteger("id");
+			JsonArray params = new JsonArray();
+			params.add(id);
+
+			client.getConnection(conn -> {
+				if (conn.succeeded()) {
+					conn.result().queryWithParams("select * from ability where id=?", params, rs -> {
+						if (rs.succeeded()) {
+							List<JsonObject> heros=rs.result().getRows();
+							if(heros.isEmpty()) {
+								msg.reply(CommonConstants.NULL_OBJ);
+							}else {
+								msg.reply(Json.encode(rs.result().getRows().get(0)));	
+							}
+							
+						} else {
+							logger.error("error with query ability from db, ability_id is " + id);
+							logger.error(rs.cause());
+						}
+						conn.result().close();
+					});
+				}
+			});
+		});
 
 	}
 
 	private void getAbility() {
-		// TODO Auto-generated method stub
+	
+		vertx.eventBus().consumer(CommonConstants.ABILITY_GET).handler(msg -> {
+
+			client.getConnection(conn -> {
+				if (conn.succeeded()) {
+					conn.result().query("select * from ability", rs -> {
+						if (rs.succeeded()) {
+							msg.reply(Json.encode(rs.result().getRows()));
+						} else {
+							logger.error("error with query hero from db");
+							logger.error(rs.cause());
+						}
+						conn.result().close();
+					});
+				}
+			});
+		});
 
 	}
 
