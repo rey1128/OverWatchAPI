@@ -10,8 +10,9 @@ create table hero(
 create table ability(
 	id int not null primary key,
 	name varchar(255),
-	description varchar(255),
+	description varchar(2000),
 	is_ultimate boolean,
-	hero_id int references hero(id)
+	hero_id int
+	--hero_id int references hero(id)
 );
 
