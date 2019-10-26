@@ -29,12 +29,14 @@ public class AbilityController {
 				Gson gson = new Gson();
 				List<Ability> abilities = gson.fromJson(msg.result().body().toString().toLowerCase(),
 						CommonUtils.abilityListTypeToken.getType());
-				context.response().end(Json.encodePrettily(abilities));
+				context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+						.end(Json.encodePrettily(abilities));
 
 			} else {
-				logger.error("error with get heros from db");
+				logger.error("error with get abilites from db");
 				logger.error(msg.cause());
-				context.response().setStatusCode(503).end(Json.encode("cannot get heros now"));
+				context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+						.setStatusCode(503).end(Json.encode("cannot get abilites now"));
 			}
 		});
 	}
@@ -46,7 +48,8 @@ public class AbilityController {
 			id = Integer.parseInt(idStr);
 		} catch (NumberFormatException e) {
 			String info = CommonConstants.BAD_REQUEST + ", ability_id is " + idStr;
-			context.response().setStatusCode(400).end(info);
+			context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+					.setStatusCode(400).end(Json.encode(info));
 			return;
 		}
 
@@ -56,16 +59,19 @@ public class AbilityController {
 			if (msg.succeeded()) {
 				if (CommonConstants.NULL_OBJ.equals(msg.result().body())) {
 					String info = CommonConstants.RESOUCE_NOT_FOUND + ", ability_id is " + idStr;
-					context.response().setStatusCode(404).end(Json.encode(info));
+					context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+							.setStatusCode(404).end(Json.encode(info));
 				} else {
 					Gson gson = new Gson();
 					Ability ability = gson.fromJson(msg.result().body().toString().toLowerCase(), Ability.class);
-					context.response().end(Json.encodePrettily(ability));
+					context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+							.end(Json.encodePrettily(ability));
 				}
 			} else {
 				logger.error("error with get heros from db");
 				logger.error(msg.cause());
-				context.response().setStatusCode(503).end(Json.encode("cannot get heros now"));
+				context.response().putHeader(CommonConstants.CONTENT_TYPE, CommonConstants.CONTENT_TYPE_JSON)
+						.setStatusCode(503).end(Json.encode("cannot get abilies now"));
 			}
 		});
 	}

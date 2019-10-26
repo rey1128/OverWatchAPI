@@ -2,7 +2,8 @@ package com.rey.common;
 
 public class CommonConstants {
 	public final static String USER_AGENT_STRING = "User-Agent";
-
+	public static final String CONTENT_TYPE = "content-type";
+	public static final String CONTENT_TYPE_JSON = "application/json";
 	
 	
 	// event bus address

@@ -9,6 +9,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.StaticHandler;
 
 public class WebVerticle extends AbstractVerticle {
 	private Logger logger = LoggerFactory.getLogger(WebVerticle.class);
@@ -24,6 +25,8 @@ public class WebVerticle extends AbstractVerticle {
 			context.response().end("this is index");
 		});
 
+		router.route("/swagger/*").handler(StaticHandler.create("webroot/swagger"));
+		
 		Router middlewareRouter = Router.router(vertx);
 		middlewareRouter.route().handler(this::checkUA);
 		middlewareRouter.mountSubRouter("/", router);

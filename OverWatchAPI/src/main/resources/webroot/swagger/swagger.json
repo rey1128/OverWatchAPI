@@ -1,0 +1,262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Example service for Overwatch",
+    "version": "1.0.0",
+    "title": "Swagger OverWatch",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:9999",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "ability",
+      "description": "info about the ability"
+    },
+    {
+      "name": "hero",
+      "description": "info about the hero"
+    }
+  ],
+  "paths": {
+    "/api/abilities": {
+      "get": {
+        "tags": [
+          "ability"
+        ],
+        "description": "get a list of abilities",
+        "operationId": "getAbility",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Ability"
+              }
+            }
+          },
+          "503": {
+            "description": "cannot get abilites now"
+          }
+        }
+      }
+    },
+    "/api/abilities/{ability_id}": {
+      "get": {
+        "tags": [
+          "ability"
+        ],
+        "description": "get a ability by id",
+        "operationId": "getAbilityById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ability_id",
+            "in": "path",
+            "description": "id of the ability to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            }
+          },
+          "400": {
+            "description": "bad request, please check your query"
+          },
+          "404": {
+            "description": "required resource is not found"
+          },
+          "503": {
+            "description": "cannot get abilites now"
+          }
+        }
+      }
+    },
+    "/api/heros": {
+      "get": {
+        "tags": [
+          "hero"
+        ],
+        "description": "get a list of abilities",
+        "operationId": "getHero",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Hero"
+              }
+            }
+          },
+          "503": {
+            "description": "cannot get heros now"
+          }
+        }
+      }
+    },
+    "/api/heros/{hero_id}": {
+      "get": {
+        "tags": [
+          "hero"
+        ],
+        "description": "get a hero by id",
+        "operationId": "getHeroById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "hero_id",
+            "in": "path",
+            "description": "id of hero to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Hero"
+            }
+          },
+          "400": {
+            "description": "bad request, please check your query"
+          },
+          "404": {
+            "description": "required resource is not found"
+          },
+          "503": {
+            "description": "cannot get heros now"
+          }
+        }
+      }
+    },
+    "/api/heros/{hero_id}/abilities": {
+      "get": {
+        "tags": [
+          "hero"
+        ],
+        "description": "get a hero abilities by hero id",
+        "operationId": "getHeroAbilityById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "hero_id",
+            "in": "path",
+            "description": "id of hero",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Ability"
+              }
+            }
+          },
+          "400": {
+            "description": "bad request, please check your query"
+          },
+          "404": {
+            "description": "required resource is not found"
+          },
+          "503": {
+            "description": "cannot get abilies now"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Ability": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "is_ultimate": {
+          "type": "boolean"
+        },
+        "hero": {
+          "$ref": "#/definitions/Hero"
+        },
+        "hero_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Hero": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "real_name": {
+          "type": "string"
+        },
+        "health": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "armour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "shield": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
