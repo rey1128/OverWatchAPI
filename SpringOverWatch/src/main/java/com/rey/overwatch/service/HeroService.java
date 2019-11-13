@@ -29,6 +29,9 @@ public class HeroService {
 	public void createHero(Hero hero) {
 		heroRepo.save(hero);
 	}
+	public void createHeros(List<Hero> heros) {
+		heroRepo.saveAll(heros);
+	}
 
 	public void deleteHeroById(long id) {
 		heroRepo.deleteById(id);

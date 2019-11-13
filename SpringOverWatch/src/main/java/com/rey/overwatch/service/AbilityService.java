@@ -41,6 +41,11 @@ public class AbilityService {
 
 		abilityRepo.save(ability);
 	}
+	
+	public void createAbilities(List<Ability> abilities) {
+		abilityRepo.saveAll(abilities);
+	}
+	
 
 	public void updateAbilityById(Long id, AbilityModel model, Hero hero) {
 		Ability ability = findAbilityById(id);

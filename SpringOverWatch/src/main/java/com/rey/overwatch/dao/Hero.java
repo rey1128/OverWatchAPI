@@ -1,5 +1,6 @@
 package com.rey.overwatch.dao;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ public class Hero {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	@Column(length = 2000)
 	private String description;
 	private String real_name;
 	private Integer age;
