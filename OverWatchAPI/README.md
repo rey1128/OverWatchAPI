@@ -1,4 +1,4 @@
-# OverWatchAPI
+# OverWatchAPI with Vert.x
 
 ## start the service
 1. enter the project root folder OverWatchAPI, 
